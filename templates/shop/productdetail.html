@@ -217,7 +217,7 @@
                         <form method="POST" action="{% url 'review' %}">
                             {% csrf_token %}
                             <div class="card mb-4">
-                                <div class="card-header">Write a read</div>
+                                <div class="card-header">Write a Review</div>
                                 <div class="card-body">
                                     
                                         <h5>Star Rating</h5>
@@ -276,7 +276,7 @@
                             </div>
                         </form>
                         <div class="card">
-                            <div class="card-header">Write a review</div>
+                            <div class="card-header">User Reviews</div>
                             <div class="card-body">
                                 {% for review in product.product_reviews.all reversed %}
                                 <table class="table table-bordered">
