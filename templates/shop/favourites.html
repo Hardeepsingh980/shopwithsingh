@@ -11,7 +11,7 @@
         <div class="row">
             {% for product in user.favourites.products.all %}
             <div class="col-sm-4">
-                {% include "productcard.html" with price=product.product_price name=product.product_title id=product.product_id colors=product.product_colors_avalable sizes=product.product_sizes_avalable headline=product.product_headline img=product.product_img.url %}
+                {% include "productcard.html" with price=product.product_price name=product.product_title id=product.product_id colors=product.product_colors_avalable sizes=product.product_sizes_avalable headline=product.product_headline img=product.product_img %}
                 <form action="{% url 'removefav' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{product.product_id}}">

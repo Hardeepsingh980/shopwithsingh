@@ -56,7 +56,7 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
     product_title = models.CharField(max_length=30)
     product_headline = models.CharField(max_length=50)
-    product_img = models.ImageField(upload_to='products')
+    product_img = models.URLField()
     product_price = models.IntegerField()
     product_count = models.IntegerField(default=1)
     product_sizes_avalable = models.ManyToManyField(Sizes)
