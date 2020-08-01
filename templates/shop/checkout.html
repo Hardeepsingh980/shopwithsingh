@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block title %} SWS - Checkout {% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="py-5 text-center">
+
+        <h2>Checkout form</h2>
+        <p class="lead">Please fill the below form for completing the order.
+            <br>
+            Note:- This information will be used to deliver the product.</p>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your order</span>
+                <span class="badge badge-secondary badge-pill">{{order.order_quantity}}</span>
+            </h4>
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <img style="height: 80px; width: auto;" src="{{order.order_product.product_img.url}}">
+                    <div>
+                        <h6 class="my-0">{{order.order_product.product_title}} x({{order.order_quantity}})</h6>
+                        <small class="text-muted">{{order.order_product.product_headline}}</small>
+                    </div>
+                    <span class="text-muted">₹ {{order_amount}}</span>
+                </li>
+                
+                
+                
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Delivery Charges</span>
+                    <strong>₹ 100</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total</span>
+                    <strong>₹ {{ order_amount|add:100 }}</strong>
+                </li>
+            </ul>
+
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+            <form method="POST" action="{% url 'checkout'%}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName">First name</label>
+                        <input type="text" name="first_name" class="form-control" id="firstName" placeholder="" value="{{order.order_user.first_name}}" required>
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName">Last name</label>
+                        <input type="text" name="last_name" class="form-control" id="lastName" placeholder="" value="{{order.order_user.last_name}}" required>
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="phone">Phone Number <span class="text-muted"></span></label>
+                    <input type="phone" name="phone" class="form-control" id="phone" value="{{order.order_user.address.phone}}" placeholder="+91" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address">Address</label>
+                    <input type="text" name="street_address" class="form-control" id="address" value="{{order.order_user.address.street_address}}" placeholder="1234 Main St" required>
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="country">Country</label>
+                        <select class="custom-select d-block w-100" id="country" required>
+                            <option value="India">India</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="state">State</label>
+                        <select class="custom-select d-block w-100" id="state" name="state" required>
+                            <option value="{{order.order_user.address.state}}">{{order.order_user.address.state}}</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                            <option value="Assam">Assam</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chandigarh">Chandigarh</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
+                            <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                            <option value="Daman and Diu">Daman and Diu</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Lakshadweep">Lakshadweep</option>
+                            <option value="Puducherry">Puducherry</option>
+                            <option value="Goa">Goa</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                            <option value="Jharkhand">Jharkhand</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Manipur">Manipur</option>
+                            <option value="Meghalaya">Meghalaya</option>
+                            <option value="Mizoram">Mizoram</option>
+                            <option value="Nagaland">Nagaland</option>
+                            <option value="Odisha">Odisha</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Sikkim">Sikkim</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Tripura">Tripura</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Uttarakhand">Uttarakhand</option>
+                            <option value="West Bengal">West Bengal</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid state.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="zip">City</label>
+                        <input type="text" name="city" class="form-control" id="city" value="{{order.order_user.address.city}}" placeholder="" required>
+                        <div class="invalid-feedback">
+                            City required.
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="zip">Zip</label>
+                        <input type="text" name="pincode" class="form-control" id="zip" value="{{order.order_user.address.pincode}}" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Zip code required.
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+
+                <h4 class="mb-3">Payment</h4>
+
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        <input id="credit" name="payment_type" value="COD" type="radio" class="custom-control-input" checked
+                            required>
+                        <label class="custom-control-label" for="credit">Cash On Delivery</label>
+                    </div>
+                    
+                    <div class="custom-control custom-radio">
+                        <input id="debit" name="payment_type" value="ONLINE" type="radio" class="custom-control-input" required>
+                        <label class="custom-control-label" for="debit">Pay Online</label>
+                    </div>
+
+                </div>
+
+                <input type="hidden" value="{{order.order_product.product_id}}" name="product_id" />
+                <input type="hidden" value="{{order.order_size.size_id}}" name="size_id" />
+                <input type="hidden" value="{{order.order_color.color_id}}" name="color_id" />
+                <input type="hidden" value="{{order.order_quantity}}" name="quantity" />
+                <input type="hidden" value="{{order_amount|add:100}}" name="order_amount" />
+
+
+                <hr class="mb-4">
+                <button class="btn btn-warning btn-lg btn-block" type="submit">Continue to checkout</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+
+{% block title %} SWS - Dashboard {% endblock %}
+
+{% block content %}
+
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+                <div
+                    class="row d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="col-lg-3">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body btn-success">
+                                <h5 class="card-text">Total Users</h5>
+                                <p class="card-title">{{total_users}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body btn-warning">
+                                <h5 class="card-text">Total Earned</h5>
+                                <p class="card-title">₹{{total_earned}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body btn-info">
+                                <h5 class="card-text">Total Orders</h5>
+                                <p class="card-title">{{total_orders}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body btn-danger">
+                                <h5 class="card-text">Orders Pending</h5>
+                                <p class="card-title">{{total_pending}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+
+                    </div>
+                </div>
+
+                <canvas class="my-4 w-100" id="myChart" width="300" height="80"></canvas>
+
+
+
+                <h2>Orders Pending</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>User</th>
+                                <th>Product</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Paid Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders_pending %}
+                            <tr>
+                                <td><a href="" data-toggle="modal" data-target="#modal{{order.order_id}}">Order
+                                        #{{order.order_id}}</a></td>
+
+                                <div class="modal" tabindex="-1" role="dialog" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true" id="modal{{order.order_id}}">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Order #{{order.order_id}}</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div
+                                                    class="">
+                                                    <div class="card px-2">
+                                                        <div class="card-header bg-white">
+                                                            <div class="row justify-content-between">
+                                                                <div class="col">
+                                                                    <p class="text-muted"> Order ID <span
+                                                                            class="font-weight-bold text-dark">#{{order.order_id}}</span>
+                                                                    </p>
+                                                                    <p class="text-muted"> Place On <span
+                                                                            class="font-weight-bold text-dark">{{order.order_date}}</span>
+                                                                    </p>
+                                                                    {% if order.order_payment_due %}
+                                                                    <p class="text-muted"> Payment Status <span
+                                                                            class="font-weight-bold text-dark">Payment
+                                                                            Due</span>
+                                                                        {% else %}
+                                                                    <p class="text-muted"> Payment Status <span
+                                                                            class="font-weight-bold text-dark">Payment
+                                                                            Done</span>
+                                                                        {% endif %}
+
+                                                                    </p>
+                                                                </div>
+                                                                <div class="flex-col my-auto">
+                                                                    <h class="ml-auto mr-3"> <a style="color: orange;"
+                                                                            href="{% url 'productDetail' order.order_product.product_id %}">View
+                                                                            Product</a> </h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="media flex-column flex-sm-row">
+                                                                <div class="media-body ">
+                                                                    <h5 class="bold">
+                                                                        {{order.order_product.product_title}}</h5>
+                                                                    <p class="text-muted"> Qt: {{order.order_quantity}}
+                                                                    </p>
+                                                                    <h4 class="mt-3 mb-4 bold"> <span
+                                                                            class="mt-5">&#x20B9;</span>
+                                                                        {{order.order_amount}}</h4>
+                                                                    <p class="text-muted">Tracking Status on: <span
+                                                                            class="Today">{% now "jS F Y H:i" %}</span>
+                                                                    </p>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-warning d-flex">{{order.order_status}}</button>
+                                                                </div><img class="align-self-center img-fluid"
+                                                                    style="padding: 5%;"
+                                                                    src="{{order.order_product.product_img.url}}"
+                                                                    width="180 " height="180">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row px-3">
+                                                            <div class="col">
+                                                                <h5>Deliver to</h5>
+                                                                <p class="text-muted"> Street <span
+                                                                    class="font-weight-bold text-dark">{{order.order_user.address.street_address}}</span>
+                                                            </p>
+                                                                <p class="text-muted"> City <span
+                                                                    class="font-weight-bold text-dark">{{order.order_user.address.city}}</span>
+                                                            </p>
+                                                                <p class="text-muted"> State <span
+                                                                    class="font-weight-bold text-dark">{{order.order_user.address.state}}</span>
+                                                            </p>
+                                                                <p class="text-muted"> Pincode <span
+                                                                    class="font-weight-bold text-dark">{{order.order_user.address.pincode}}</span>
+                                                            </p>
+                                                                <p class="text-muted"> Phone No <span
+                                                                    class="font-weight-bold text-dark">{{order.order_user.address.phone}}</span>
+                                                            </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-footer bg-white px-sm-3 pt-sm-4 px-0">
+                                                            <div class="row text-center ">
+                                                                <div class="col my-auto border-line ">
+                                                                    {% if order.order_payment_due %}
+                                                                    <h5 style="color: orange;">Payment Pending</h5>
+                                                                    {% else %}
+                                                                    <h5 style="color: orange;">Payment Done</h5>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <td>@{{order.order_user.username}}</td>
+                                <td>
+                                    <span class="text-muted"><i
+                                            class="wb wb-time"></i>{{order.order_product.product_title}} x
+                                        {{order.order_quantity}}</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted"><i class="wb wb-time"></i>{{order.order_date}}</span>
+                                </td>
+                                <td>₹{{order.order_amount}}</td>
+                                <form action="{% url 'updateorder' %}" method="POST">
+                                    {% csrf_token %}
+                                    <td>
+                                        <select class="badge badge-table badge-success" name="status">
+                                            <option class="badge badge-table badge-success"
+                                                value="{{order.order_status}}" selected>
+                                                {{order.order_status}}</option>
+                                            <option class="badge badge-table badge-success" value="Dispatched">
+                                                Dispatched</option>
+                                            <option class="badge badge-table badge-success" value="On the way">
+                                                On the way</option>
+                                            <option class="badge badge-table badge-success" value="Delivered">
+                                                Delivered</option>
+
+                                        </select>
+                                        <input name="order_id" type="hidden" value="{{order.order_id}}">
+                                    </td>
+                                    {% if order.order_payment_due %}
+                                    <td>Not Paid</td>
+                                    {% else %}
+                                    <td>Paid</td>
+                                    {% endif%}
+                                    <td>
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </td>
+                                </form>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    <script src="../assets/dist/js/bootstrap.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script>
+
+            /* globals Chart:false, feather:false */
+
+            (function () {
+                'use strict'
+
+                feather.replace()
+
+                // Graphs
+                var ctx = document.getElementById('myChart')
+                // eslint-disable-next-line no-unused-vars
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: {{ labels| safe }},
+                datasets: [{
+                    data: {{ data| safe }},
+                lineTension: 0,
+                backgroundColor: 'transparent',
+                borderColor: 'orange',
+                borderWidth: 3,
+                pointBackgroundColor: 'orange'
+                        }]
+                    },
+                options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                }
+            }
+                })
+            }())
+
+
+    </script>
+
+
+    {% endblock %}

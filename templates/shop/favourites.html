@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} SWS - Favourites {% endblock %}
+
+{% block content %}
+
+<section>
+
+    <div class="container">
+        <h2 style="padding-top: 5%;">{{user.username}}'s favourites</h2>
+        <div class="row">
+            {% for product in user.favourites.products.all %}
+            <div class="col-sm-4">
+                {% include "productcard.html" with price=product.product_price name=product.product_title id=product.product_id colors=product.product_colors_avalable sizes=product.product_sizes_avalable headline=product.product_headline img=product.product_img.url %}
+                <form action="{% url 'removefav' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{product.product_id}}">
+                    <button class="btn btn-warning btn-lg btn-block" type="submit">Remove From Favourites</button>
+                </form>
+            </br>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}

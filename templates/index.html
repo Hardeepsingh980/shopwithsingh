@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} SWS - Home {% endblock %}
+
+{% block content %}
+
+<section>
+
+    <div class="container">
+        <h2 style="padding-top: 5%;">Popular Products</h2>
+        <div class="row">
+        {% for product in products %}
+          <div class="col-sm-4">
+            {% include "productcard.html" with price=product.product_price name=product.product_title id=product.product_id colors=product.product_colors_avalable sizes=product.product_sizes_avalable headline=product.product_headline img=product.product_img.url %}
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+
+</section>
+
+{% endblock %}
