@@ -6,100 +6,98 @@
 
 <style>
     .rating {
-  display: inline-block;
-  position: relative;
-  height: 50px;
-  line-height: 50px;
-  font-size: 50px;
-}
+        display: inline-block;
+        position: relative;
+        height: 50px;
+        line-height: 50px;
+        font-size: 50px;
+    }
 
-.rating label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  cursor: pointer;
-}
+    .rating label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        cursor: pointer;
+    }
 
-.rating label:last-child {
-  position: static;
-}
+    .rating label:last-child {
+        position: static;
+    }
 
-.rating label:nth-child(1) {
-  z-index: 5;
-}
+    .rating label:nth-child(1) {
+        z-index: 5;
+    }
 
-.rating label:nth-child(2) {
-  z-index: 4;
-}
+    .rating label:nth-child(2) {
+        z-index: 4;
+    }
 
-.rating label:nth-child(3) {
-  z-index: 3;
-}
+    .rating label:nth-child(3) {
+        z-index: 3;
+    }
 
-.rating label:nth-child(4) {
-  z-index: 2;
-}
+    .rating label:nth-child(4) {
+        z-index: 2;
+    }
 
-.rating label:nth-child(5) {
-  z-index: 1;
-}
+    .rating label:nth-child(5) {
+        z-index: 1;
+    }
 
-.rating label input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
+    .rating label input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
 
-.rating label .icon {
-  float: left;
-  color: transparent;
-}
+    .rating label .icon {
+        float: left;
+        color: transparent;
+    }
 
-.rating label:last-child .icon {
-  color: #000;
-}
+    .rating label:last-child .icon {
+        color: #000;
+    }
 
-.rating:not(:hover) label input:checked ~ .icon,
-.rating:hover label:hover input ~ .icon {
-  color: orange;
-}
+    .rating:not(:hover) label input:checked~.icon,
+    .rating:hover label:hover input~.icon {
+        color: orange;
+    }
 
-.rating label input:focus:not(:checked) ~ .icon:last-child {
-  color: #000;
-  text-shadow: 0 0 5px orange;
-}
+    .rating label input:focus:not(:checked)~.icon:last-child {
+        color: #000;
+        text-shadow: 0 0 5px orange;
+    }
 
-.containerdiv {
-  border: 0;
-  float: left;
-  position: relative;
-  width: 300px;
-}
+    .containerdiv {
+        border: 0;
+        float: left;
+        position: relative;
+        width: 300px;
+    }
 
-.cornerimage {
-  border: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-}
+    .cornerimage {
+        border: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+    }
 
-.star-img {
-    max-width: 150px;
-}
+    .star-img {
+        max-width: 150px;
+    }
 
-.prod-img {
-    max-width: 65%;
-    height: auto;
-}
+    .prod-img {
+        max-width: 65%;
+        height: auto;
+    }
 
-.color-box {
-    border: 3px solid #000000;
-}
-
-
+    .color-box {
+        border: 3px solid #000000;
+    }
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -123,43 +121,44 @@
                     <div class="card-body">
                         <h1>{{product.product_title}}</h1>
                         <h4>{{product.product_headline}}</h4>
-                        <p class="m-0">
-                            <div class="containerdiv">
-                                <div>
-                                    <img class="star-img" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
-                                </div>
-                                <div class="cornerimage" style="width:{{product.product_avg_rating}}0%;">
-                                    <img class="star-img" src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
-                                </div>
-                                </div>
-                            <h5>.</h5>
+                        <div class="containerdiv mb-3">
+                            <div>
+                                <img class="star-img" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
+                            </div>
+                            <div class="cornerimage" style="width:{{product.product_avg_rating}}0%;">
+                                <img class="star-img" src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
+                            </div>
+                        </div>
+
+
+
+                        <p class="mt-3">
+                        <h2>₹{{product.product_price}}<small><s>₹
+                                    {{product.product_price|add:100}}</s></small></h2>
                         </p>
-                        <ul class="list-group list-group-flush mb-4">
+                        <p class="mb-3 text-muted">*delivery charges extra</p>
 
-                            <li class="list-group-item pl-0 pr-0">
-                                <p class="m-0 h2">₹{{product.product_price}} <small><s>₹
-                                            {{product.product_price|add:100}}</s></small></p>
-                                <p class="m-0 text-muted">*delivery charges extra</p>
-                            </li>
 
-                        </ul>
 
-                        <form method="POST", action="{% url 'buynow' %}">
+
+                        <form method="POST" , action="{% url 'buynow' %}">
                             {% csrf_token %}
-                            <input type="hidden" name="product_id" value="{{product.product_id}}"/>
+                            <input type="hidden" name="product_id" value="{{product.product_id}}" />
                             <legend>Available Options</legend>
                             <fieldset id="radio_size" name="size_id">
                                 <label for="" class="col-sm-12 col-form-label">Size</label>
                                 {% for size in product.product_sizes_avalable.all %}
-                                <input type="radio" id="{{size.size_id}}" value="{{size.size_id}}" name="size_id" required>
+                                <input type="radio" id="{{size.size_id}}" value="{{size.size_id}}" name="size_id"
+                                    required>
                                 <label for="{{size.size_id}}">{{size.size_name}}</label>
                                 {% endfor %}
-                                 </fieldset>
+                            </fieldset>
 
                             <fieldset id="radio_color" name="color_id">
                                 <label for="" class="col-sm-12 col-form-label">Color</label>
                                 {% for color in product.product_colors_avalable.all %}
-                                <input type="radio" id="{{color.color_id}}" value="{{color.color_id}}" name="color_id" required>
+                                <input type="radio" id="{{color.color_id}}" value="{{color.color_id}}" name="color_id"
+                                    required>
                                 <label for="{{color.color_id}}">
                                     <div class="p-2 mt-1 color-box" style="background-color:{{color.color_code}}">
                                     </div>
@@ -167,8 +166,8 @@
                                 {% endfor %}
                             </fieldset>
                             <div class="input-group input-group-lg mb-4">
-                                <input type="number" class="form-control text-center" placeholder="Quantity" id="quantity"
-                                    name="quantity" value="1" min="1" max="20" required/>
+                                <input type="number" class="form-control text-center" placeholder="Quantity"
+                                    id="quantity" name="quantity" value="1" min="1" max="20" required />
                                 <div class="input-group-append">
                                     <span class="input-group-text">Quantity</span>
                                 </div>
@@ -178,145 +177,147 @@
                                     <i class="fa fa-cart-plus"></i>
                                     <span>Buy Now</span>
                                 </button>
-                            </form>
-                                <form action="{% url 'addfav' %}" method="POST">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="product_id" value="{{product.product_id}}">
-                                    <button style="height: 100%;" type="submit" class="btn btn-warning"><i
-                                        class="fa fa-heart"></i></button>
-                                </form>
+                        </form>
+                        <form action="{% url 'addfav' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{product.product_id}}">
+                            <button style="height: 100%;" type="submit" class="btn btn-warning"><i
+                                    class="fa fa-heart"></i></button>
+                        </form>
 
-                            </div>
-                        
                     </div>
+
                 </div>
             </div>
-            <div class="col-md-12 mt-4">
-                <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link lead active" style="color: orange;" role="tab" data-toggle="tab"
-                            href="#tabDescription">Description</a>
-                    </li>
+        </div>
+        <div class="col-md-12 mt-4">
+            <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link lead active" style="color: orange;" role="tab" data-toggle="tab"
+                        href="#tabDescription">Description</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link lead" style="color: orange;" role="tab" data-toggle="tab"
-                            href="#tabReview">Reviews</a>
-                    </li>
-
-
-
-                </ul>
-                <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane pt-4 active" role="tabpanel" id="tabDescription">
-                        {{product.product_desc}}
-                    </div>
-
-                    <div class="tab-pane pt-4" role="tabpanel" id="tabReview">
+                <li class="nav-item">
+                    <a class="nav-link lead" style="color: orange;" role="tab" data-toggle="tab"
+                        href="#tabReview">Reviews</a>
+                </li>
 
 
-                        <form method="POST" action="{% url 'review' %}">
-                            {% csrf_token %}
-                            <div class="card mb-4">
-                                <div class="card-header">Write a Review</div>
-                                <div class="card-body">
-                                    
-                                        <h5>Star Rating</h5>
-                                        <fieldset name="starts"> 
-                                            <div class="rating">
-                                    <label>
-                                        <input type="radio" name="stars" value="1" required/>
-                                        <span class="icon">★</span>
-                                      </label>
-                                      <label>
-                                        <input type="radio" name="stars" value="2" required/>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                      </label>
-                                      <label>
-                                        <input type="radio" name="stars" value="3" required/>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>   
-                                      </label>
-                                      <label>
-                                        <input type="radio" name="stars" value="4" required/>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                      </label>
-                                      <label>
-                                        <input type="radio" name="stars" value="5" required/>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                        <span class="icon">★</span>
-                                      </label>
-                                    </div>
-                                    </fieldset>                                      
+
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane pt-4 active" role="tabpanel" id="tabDescription">
+                    {{product.product_desc}}
+                </div>
+
+                <div class="tab-pane pt-4" role="tabpanel" id="tabReview">
 
 
-                                   
-
-                                    <div class="form-group row">
-                                        <label for="" class="col-sm-12 col-form-label">Your Review</label>
-                                        <div class="col-sm-12">
-                                            <textarea class="form-control" id="review_comment" name="review_comment"
-                                                placeholder="Your Review" rows="3" required></textarea>
-
-                                        </div>
-                                    </div>
-                                    <input type="hidden" value="{{product.product_id}}" name="product_id">
-
-                                </div>
-                                <div class="card-footer">
-                                    <input class="btn btn-warning" type="submit" value="Submit">
-                                </div>
-                            </div>
-                        </form>
-                        <div class="card">
-                            <div class="card-header">User Reviews</div>
+                    <form method="POST" action="{% url 'review' %}">
+                        {% csrf_token %}
+                        <div class="card mb-4">
+                            <div class="card-header">Write a Review</div>
                             <div class="card-body">
-                                {% for review in product.product_reviews.all reversed %}
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="2">
-                                                <strong>{{review.review_user.username}}</strong>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <p>{{review.review_comment}}</p>
-                                                <p class="m-0">{{review.review_date}}</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <strong>Customer Rating: </strong>
-                                                <span class="fa fa-stack">
-                                                    <div class="containerdiv">
-                                                        <div>
-                                                            <img class="star-img" src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
-                                                        </div>
-                                                        <div class="cornerimage" style="width:{{review.review_stars}}0%;">
-                                                            <img class="star-img" src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
-                                                        </div>
-                                                        </div>
-                                                </span>
-                                            
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                {% endfor %}
-                                
+
+                                <h5>Star Rating</h5>
+                                <fieldset name="starts">
+                                    <div class="rating">
+                                        <label>
+                                            <input type="radio" name="stars" value="1" required />
+                                            <span class="icon">★</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="stars" value="2" required />
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="stars" value="3" required />
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="stars" value="4" required />
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="stars" value="5" required />
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                            <span class="icon">★</span>
+                                        </label>
+                                    </div>
+                                </fieldset>
+
+
+
+
+                                <div class="form-group row">
+                                    <label for="" class="col-sm-12 col-form-label">Your Review</label>
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control" id="review_comment" name="review_comment"
+                                            placeholder="Your Review" rows="3" required></textarea>
+
+                                    </div>
+                                </div>
+                                <input type="hidden" value="{{product.product_id}}" name="product_id">
+
+                            </div>
+                            <div class="card-footer">
+                                <input class="btn btn-warning" type="submit" value="Submit">
                             </div>
                         </div>
+                    </form>
+                    <div class="card">
+                        <div class="card-header">User Reviews</div>
+                        <div class="card-body">
+                            {% for review in product.product_reviews.all reversed %}
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2">
+                                            <strong>{{review.review_user.username}}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p>{{review.review_comment}}</p>
+                                            <p class="m-0">{{review.review_date}}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <strong>Customer Rating: </strong>
+                                            <span class="fa fa-stack">
+                                                <div class="containerdiv">
+                                                    <div>
+                                                        <img class="star-img"
+                                                            src="https://image.ibb.co/jpMUXa/stars_blank.png" alt="img">
+                                                    </div>
+                                                    <div class="cornerimage" style="width:{{review.review_stars}}0%;">
+                                                        <img class="star-img"
+                                                            src="https://image.ibb.co/caxgdF/stars_full.png" alt="">
+                                                    </div>
+                                                </div>
+                                            </span>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            {% endfor %}
+
+                        </div>
                     </div>
-
-
-
                 </div>
-                {% endblock %}
+
+
+
+            </div>
+            {% endblock %}
