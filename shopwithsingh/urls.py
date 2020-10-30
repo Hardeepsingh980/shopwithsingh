@@ -9,6 +9,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home' ),
+    path('silk/', include('silk.urls', namespace='silk')),
     path('accounts/', include('accounts.urls')),
     path('shop/', include('shop.urls')),
     path('dashboard/', include('dashboard.urls')),
